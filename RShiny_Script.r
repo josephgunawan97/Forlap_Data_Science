@@ -15,7 +15,7 @@ tabNum <- 1
 ui <- fluidPage(
   
   # Application title
-  titlePanel("Universities Student Data Prediction"),
+  titlePanel("Data Mahasiswa Kopertis III 2009-2018"),
   
   # Sidebar with a slider input for number of bins 
   sidebarLayout(
@@ -24,7 +24,7 @@ ui <- fluidPage(
       
       #Select university
       selectInput("univ",
-                  "Select University",
+                  "Nama Perguruan Tinggi",
                   choices = unique(newdf$namaPT)),
       
       #Select course by using function
@@ -32,7 +32,7 @@ ui <- fluidPage(
       
       #Select year 
       numericInput("year",
-                   "Input year",
+                   "Tahun masuk",
                    value = 2009,
                    min = 2009, 
                    max = 2018
@@ -44,7 +44,7 @@ ui <- fluidPage(
       
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("University Student", 
+                  tabPanel("College student", 
                            tags$div(class="header", style = " horizontal-align: middle;", checked=NA, 
                               tags$h4(style = "text-align: center;",textOutput("univ"))
                            ), plotOutput("totalStudent")),
@@ -65,15 +65,15 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
-  output$univ <- renderText(paste("Total number of University students in" ,{input$univ}))
-  output$univ2 <- renderText(paste("Total number of students enrolled in" ,{input$course}, "course at", {input$univ}))
-  output$univ3 <- renderText(paste("Details of number of students of", {input$univ},"by",{input$year}) )
+  output$univ <- renderText(paste("Jumlah mahasiswa" ,{input$univ}, "per tahun" ))
+  output$univ2 <- renderText(paste("Jumlah mahasiswa ", {input$univ}, " jurusan ",{input$course}, "per tahun"))
+  output$univ3 <- renderText(paste("Jumlah mahasiswa ", {input$univ}, "per jurusan pada tahun ",{input$year}) )
 
   
   #Function for create dynamic selectInput
   output$choice <- renderUI({
     selectInput("course",
-                "Input Course",
+                "Jurusan",
                 choices =unique(newdf$namaProdi[newdf$namaPT==input$univ]) )
     
   })
@@ -82,9 +82,6 @@ server <- function(input, output) {
   output$totalStudent <- renderPlot({
     ggplot(newdf[newdf$namaPT==input$univ,],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") + 
       scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019))
-   
-  
-    
   })
   
   #Plot graph based on course taken
