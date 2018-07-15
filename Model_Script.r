@@ -22,4 +22,4 @@ new_data$Banyak <-res
 new_data$Banyak[new_data$Banyak<=0] <- 0
 newdf <- rbind(dataframe,new_data)
 
-ggplot(newdf[newdf$namaProdi=="Akuntansi",],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") + coord_flip()
+#ggplot(newdf[newdf$namaProdi=="Akuntansi",],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") + coord_flip()
