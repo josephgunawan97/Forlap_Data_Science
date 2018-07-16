@@ -42,6 +42,8 @@ ui <- fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
+      p("Di sini, Anda dapat melihat jumlah mahasiswa di jurusan yang terdapat pada perguruan tinggi yang berada di bawah Kopertis Wilayah III. Pilih perguruan tinggi, jurusan, dan tahun yang ingin dilihat. Arahkan kursor pada batang-batang di tabel untuk membaca rincian jumlah mahasiswa. Gunakan autoscale jika dibutuhkan."),
+      br(),
       
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",

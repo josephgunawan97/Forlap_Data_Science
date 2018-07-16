@@ -1,5 +1,5 @@
 library(tidyr)
-devtools::install_github('hadley/ggplot2')
+library(ggplot2)
 
 dataframe <- read.csv("MyData.csv")
 dataframe$X <- c()
@@ -23,6 +23,4 @@ new_data$Banyak <-res
 new_data$Banyak[new_data$Banyak<=0] <- 0
 newdf <- rbind(dataframe,new_data)
 
-#ggplot(newdf[newdf$namaProdi=="Akuntansi",],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") + coord_flip()
-
-newdf2 <- plyr::ddply(newdf, c("Semester","Tahun","namaPT"), summarise, Banyak=sum(Banyak))
+newdf2 <- plyr::ddply(newdf, c("Semester","Tahun","namaPT"), summarise, Banyak = sum(Banyak))

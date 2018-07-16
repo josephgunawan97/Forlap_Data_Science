@@ -122,6 +122,7 @@ for(j in 1:nrow(link)){
   link3 <- as.data.frame(link3[grepl("prodi/detail",link3)])
   link4 <- merge(link4,link3,all=TRUE)
 }
+
 df2 <- data.frame(matrix(ncol = 0, nrow = 0))
 for (j in 1:nrow(link4)){
   PT <- (read_html(toString(link4[j,1])) %>% html_table(fill=TRUE))[[1]]

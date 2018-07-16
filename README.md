@@ -13,15 +13,16 @@ Selain itu, aplikasi ini dapat **memprediksi** data mahasiswa angkatan tahun 201
 - Kloning repo ini, lalu `cd` ke direktori tempat repo ini dikloning
 - Jalankan R (disarankan menggunakan RStudio)
 - Instal beberapa _package_ yang dibutuhkan berikut:
+  - `devtools` dengan perintah `install.packages("devtools")`
   - `XML` dengan perintah `install.packages("XML")`
   - `rvest` dengan perintah `install.packages("rvest")`
   - `dplyr` dengan perintah `install.packages("dplyr")`
   - `tidyr` dengan perintah `install.packages("tidyr")`
   - `shiny` dengan perintah `install.packages("shiny")`
-  - `ggplot2` dengan perintah `install.packages("ggplot2")`
+  - `plotly` dengan perintah `install.packages("plotly")`
+  - `ggplot2` dengan perintah `devtools::install_github('hadley/ggplot2')`
   - `RSelenium` dengan perintah  
   ```
-  install.packages("devtools")
   devtools::install_github("johndharrison/binman")
   devtools::install_github("johndharrison/wdman")
   devtools::install_github("ropensci/RSelenium")
@@ -60,20 +61,44 @@ Tahap yang dilakukan adalah:
 - Mengolah data yang telah diambil ke dalam dokumen berformat CSV
 
 ### Pemodelan
-Pemodelan dilakukan dengan cara merapikan data hasil _web-scraping_ terlebih dahulu menggunakan _library_ `tidyr`, kemudian melakukan prediksi untuk data tahun 2018.
+Pemodelan dilakukan dengan cara merapikan data hasil _web-scraping_ terlebih dahulu menggunakan _library_ `tidyr`, kemudian melakukan prediksi untuk data jumlah mahasiswa per jurusan tiap perguruan tinggi tahun 2018.
 
 Proses merapikan data ini dilakukan karena:
 - Kolom semester dan tahun masih tergabung, padahal seharusnya dipisah.
-- Masih banyak data numerik yang tersimpan sebagai tipe data _string_. - - Ada beberapa jurusan yang tutup di tengah jalan, sehingga tidak perlu dilakukan prediksi untuk jurusan-jurusan tersebut.
+- Masih banyak data numerik yang tersimpan sebagai tipe data _string_.
+- Ada beberapa jurusan yang tutup di tengah jalan, sehingga tidak perlu dilakukan prediksi untuk jurusan-jurusan tersebut.
 
 Sementara proses pemodelan dilakukan dengan:
 - Mengambil nama semua jurusan dari tiap perguruan tinggi
-- Membuat model linier dengan fungsi `lm()` untuk menentukan jumlah mahasiswa di tiap jurusan
+- Membuat model dengan fungsi `lm()` untuk menentukan jumlah mahasiswa di tiap jurusan tersebut
+  - Model yang digunakan adalah **regresi linier sederhana**, yang memprediksi hasil variabel terikat sebagai fungsi linier _(y = Ax + B)_ dari variabel kontrol
+  - Fungsi ini menerima dua argumen, yakni formula pemodelan dan sumber data `lm(VariabelTerikat ~ VariabelBebas, data=SumberData)`
+  - Model ini menerima jumlah mahasiswa per jurusan sebagai variabel terikat, dengan variabel bebasnya mengambil seluruh variabel yang ada di _dataframe_ hasil _web-scraping_ yang telah dirapikan di tahap sebelumnya `lm(BanyakMahasiswa ~ ., data = HasilScraping)`.
+  - Hasil model linier disimpan ke dalam sebuah variabel `model` untuk digunakan dalam prediksi di tahap selanjutnya
 - Melakukan prediksi dengan fungsi `predict()`
-
+  - Fungsi ini berfungsi untuk memprediksi data sesuai dengan model yang telah dibuat, menggunakan data baru sebagai variabel bebas `predict(model, dataBaru)`
+  - Model diambil dari hasil regresi linier dari tahap sebelumnya
+  - Variabel bebasnya adalah informasi nama jurusan dan nama perguruan tinggi yang (diasumsikan) masih aktif pada tahun 2018.
+  - Hasil prediksi yang didapatkan adalah jumlah mahasiswa untuk setiap jurusan pada tahun 2018.
+  
 Setelah pemodelan selesai, data hasil prediksi digabungkan dengan data yang sudah rapi untuk ditampilkan dalam aplikasi Shiny
 
 ### Aplikasi Shiny
+Untuk visualisasi data, aplikasi kami membutuhkan tiga masukan untuk menampilkan informasi. Pengguna dapat mengubah masukan sesuai dengan kebutuhan pada _sidebar_ yang tersedia. Informasi akan langsung berubah setiap ada satu masukan yang diubah. Ketiga masukan tersebut adalah:
+- Nama perguruan tinggi (`namaPT`)
+- Jurusan (`namaProdi`)
+- Tahun (`tahun`)
+
+Informasi ditampilkan di kolom utama, terbagi dalam tiga tab. Satu tab memuat satu diagram batang. Ketiga diagram tersebut adalah:
+- _Jumlah mahasiswa (nama perguruan tinggi) per tahun_ pada tab _Overview Tahunan_. Tabel ini membandingkan jumlah total mahasiswa dari seluruh jurusan dalam `namaPT` dari tahun ke tahun.
+- _Jumlah mahasiswa (nama perguruan tinggi) jurusan (jurusan) per tahun_ pada tab _Overview Jurusan_. Tabel ini membandingkan jumlah mahasiswa di `jurusan` dari tahun ke tahun.
+- _Jumlah mahasiswa (nama perguruan tinggi) per jurusan pada tahun (tahun)_ pada tab _Overview Jurusan/Tahun_. Tabel ini membandingkan jumlah mahasiswa yang masuk ke setiap jurusan pada `tahun`.
+
+Karena setiap perguruan tinggi harus memperbarui data mereka setiap semester, informasi untuk satu tahun dibagi menjadi semester ganjil dan genap. Data semester genap ditandai dengan warna hijau toska, sementara data semester ganjil ditandai dengan warna merah salem. Selain itu, untuk kejelasan informasi yang ditunjukkan, pengguna juga dapat mengarahkan kursor ke tiap batang pada diagram untuk melihat dengan jelas data tersebut berasal dari semester berapa, tahun berapa, dan jumlah mahasiswa yang diwakilkan oleh batang tersebut.
+
+## Saran pengembangan
+- Desain antarmuka Shiny yang lebih efektif untuk menunjukkan data.
+- Jika ada data jurusan aktif dari sebelum tahun 2018 yang belum dilaporkan ke PDDIKTI, gunakan prediksi untuk mengisi data yang hilang tersebut.
 
 ## Disklaim
 Data PDDIKTI berasal dari pelaporan data perguruan tinggi, dan hanya digunakan untuk kepentingan akademis semata.
