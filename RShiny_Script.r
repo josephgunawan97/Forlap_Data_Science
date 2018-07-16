@@ -9,6 +9,7 @@
 
 library(shiny)
 library(ggplot2)
+library(plotly)
 
 tabNum <- 1
 
@@ -44,19 +45,19 @@ ui <- fluidPage(
       
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("College student", 
+                  tabPanel("Overview Tahunan", 
                            tags$div(class="header", style = " horizontal-align: middle;", checked=NA, 
-                              tags$h4(style = "text-align: center;",textOutput("univ"))
-                           ), plotOutput("totalStudent")),
+                                    tags$h4(style = "text-align: center;",textOutput("univ"))
+                           ), plotlyOutput("totalStudent")),
                   
-                  tabPanel("Degree Student",
+                  tabPanel("Overview Jurusan",
                            tags$div(class="header", style = "horizontal-align: middle;", checked=NA, 
                                     tags$h4(style = "text-align: center;",textOutput("univ2"))),
-                            plotOutput("spesificCourse")),
+                           plotlyOutput("spesificCourse")),
                   
-                  tabPanel("University Student Details", tags$div(class="header", style = "horizontal-align: middle;", checked=NA, 
+                  tabPanel("Overview Jurusan/Tahun", tags$div(class="header", style = "horizontal-align: middle;", checked=NA, 
                                                                   tags$h4(style = "text-align: center;", textOutput("univ3"))),
-                           plotOutput("yearsDetails"))
+                           plotlyOutput("yearsDetails"))
       )
     )
   )
@@ -68,7 +69,7 @@ server <- function(input, output) {
   output$univ <- renderText(paste("Jumlah mahasiswa" ,{input$univ}, "per tahun" ))
   output$univ2 <- renderText(paste("Jumlah mahasiswa ", {input$univ}, " jurusan ",{input$course}, "per tahun"))
   output$univ3 <- renderText(paste("Jumlah mahasiswa ", {input$univ}, "per jurusan pada tahun ",{input$year}) )
-
+  
   
   #Function for create dynamic selectInput
   output$choice <- renderUI({
@@ -78,21 +79,67 @@ server <- function(input, output) {
     
   })
   
+  f <- list(
+    family = "Courier New, monospace",
+    size = 18,
+    color = "#7f7f7f"
+  )
+  
+  x <- list(
+    title = "x Axis",
+    titlefont = f
+  )
+  y <- list(
+    title = "y Axis",
+    titlefont = f
+  )
+    
+  
   #Plot graph based on University
-  output$totalStudent <- renderPlot({
-    ggplot(newdf[newdf$namaPT==input$univ,],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") + 
-      scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019))
+  output$totalStudent <- renderPlotly({
+      new3 <- ggplot(newdf2[newdf2$namaPT==input$univ,],aes(x=Tahun,y=Banyak))+geom_bar(aes(fill = Semester),stat="identity", position = "dodge") + 
+      scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019)) + xlab("Tahun")  + ylab("Jumlah Mahasiswa") +
+      theme(axis.title.x = element_text( colour='#808080'),
+            axis.title.y = element_text( colour='#808080'))+
+      theme(plot.margin = unit(c(0,1,1,1), "cm"))
+    
+    ggplotly(new3) %>%
+      layout(hoverlabel = list(font = list(family = "Calibri", 
+                                           size = 12, 
+                                           color = "white"),
+                               bordercolor = "white"))
+    
+    
   })
   
   #Plot graph based on course taken
-  output$spesificCourse <- renderPlot({
-    ggplot(newdf[newdf$namaPT==input$univ & newdf$namaProdi==input$course,],aes(x=Tahun,y=Banyak))+geom_bar(stat="identity") 
-     })
+  output$spesificCourse <- renderPlotly({
+    new2 <- ggplot(newdf[newdf$namaPT==input$univ & newdf$namaProdi==input$course,],aes(x=Tahun,y=Banyak))+geom_bar(aes(fill = Semester),stat="identity", position = "dodge") +
+      scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019)) + xlab("Tahun")  + ylab("Jumlah Mahasiswa") +
+      theme(axis.title.x = element_text( colour='#808080'),
+            axis.title.y = element_text( colour='#808080'))+
+      theme(plot.margin = unit(c(0,1,1,1), "cm"))
+    
+    ggplotly(new2) %>%
+      layout(hoverlabel = list(font = list(family = "Calibri", 
+                                           size = 12, 
+                                           color = "white"),
+                               bordercolor = "white"))
+    
+  })
   
   #Plot graph based on years
-  output$yearsDetails <- renderPlot({
-    ggplot(newdf[newdf$namaPT==input$univ & newdf$Tahun==input$year,],aes(x=namaProdi,y=Banyak))+geom_bar(stat="identity") + coord_flip() 
-    })
+  output$yearsDetails <- renderPlotly({
+    ggplotly( new <- ggplot(newdf[newdf$namaPT==input$univ & newdf$Tahun==input$year,],aes(x=namaProdi,y=Banyak))+geom_bar(aes(fill = Semester),stat="identity", position = "dodge") +
+                xlab("Nama Jurusan")  + ylab("Jumlah Mahasiswa") + coord_flip()  + theme(axis.title.x = element_text( colour='#808080'),
+                                                                                         axis.title.y = element_text( colour='#808080'))+
+                theme(plot.margin = unit(c(0,1,1,1), "cm")))
+    ggplotly(new) %>%
+      layout(hoverlabel = list(font = list(family = "Calibri", 
+                                           size = 12, 
+                                           color = "white"),
+                               bordercolor = "white"))
+  })
 }
 
 # Run the application 
