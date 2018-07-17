@@ -71,8 +71,7 @@ Proses merapikan data ini dilakukan karena:
 Sementara proses pemodelan dilakukan dengan:
 - Mengambil nama semua jurusan dari tiap perguruan tinggi
 - Membuat model dengan fungsi `lm()` untuk menentukan jumlah mahasiswa di tiap jurusan tersebut
-  - Model yang digunakan adalah **regresi linier sederhana**, yang memprediksi hasil variabel terikat sebagai fungsi linier _(y = Ax + B)_ dari variabel kontrol
-        - variabel kontrol dari pemodelan ini adalah Universitas, Jurusan, Semester dan Tahun.
+  - Model yang digunakan adalah **regresi linier sederhana**, yang memprediksi hasil variabel terikat sebagai fungsi linier _(y = Ax + B)_ dari variabel kontrol. Variabel kontrol dari pemodelan ini adalah Universitas, Jurusan, Semester dan Tahun.
   - Fungsi ini menerima dua argumen, yakni formula pemodelan dan sumber data `lm(VariabelTerikat ~ VariabelBebas, data=SumberData)`
   - Model ini menerima jumlah mahasiswa per jurusan sebagai variabel terikat, dengan variabel bebasnya mengambil seluruh variabel yang ada di _dataframe_ hasil _web-scraping_ yang telah dirapikan di tahap sebelumnya `lm(BanyakMahasiswa ~ ., data = HasilScraping)`.
   - Hasil model linier disimpan ke dalam sebuah variabel `model` untuk digunakan dalam prediksi di tahap selanjutnya
@@ -85,21 +84,25 @@ Sementara proses pemodelan dilakukan dengan:
 Setelah pemodelan selesai, data hasil prediksi digabungkan dengan data yang sudah rapi untuk ditampilkan dalam aplikasi Shiny
 
 ### Perhitungan Prediksi dengan Model Regresi
-Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z dengan pemodelan regresi dapat direpresentasikan oleh rumus matematis sebagai berikut: 
-      y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B
-      dimana,
-        - y  : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z.
-        - A<sub>1</sub> : Koefisien dari Univ W              - x<sub>1</sub> : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia)
-        - A<sub>2</sub> : Koefisien dari Jurusan X           - x<sub>2</sub> : Nilai dari Jurusan X (1 jika tersedia, 0 jika tidak tersedia)
-        - A<sub>3</sub> : Koefisien dari Semester Y          - x<sub>3</sub> : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia)
-        - A<sub>4</sub> : Koefisien dari Tahun Z             - x<sub>4</sub> : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018)
-        - B : nilai intercept
+Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z dengan pemodelan regresi dapat direpresentasikan oleh rumus matematis sebagai berikut: <br />
+**y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B** <br />
+  dimana, <br />
+    * y    : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z. <br/>
+    * A<sub>1</sub> : Koefisien dari Univ W <br/>
+    * x<sub>1</sub>  : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia) <br/>
+    * A<sub>2</sub> : Koefisien dari Jurusan X <br/>
+    * x<sub>2</sub>  : Nilai dari Jurusan X (1 jika tersedia, 0 jika tidak tersedia) <br />
+    * A<sub>3</sub> : Koefisien dari Semester Y <br/>
+    * x<sub>3</sub>  : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia) <br />
+    * A<sub>4</sub> : Koefisien dari Tahun Z <br/>
+    * x<sub>4</sub>  : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018) <br />
+    * B    : nilai intercept <br />
         
 Pada R, nilai koefisien diperoleh dari `model$coefficients` yang merupakan hasil dari data training.
 Berikut merupakan contoh dari kasus prediksi terhadap jumlah mahasiswa UPH Teknik Informatika pada tahun ajaran Ganjil 2018:
-      y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B
-      y = (464.2822717 * 1) + (103.8972457 * 1) + (0 * 1) + (1.3210840 * 2018)
-      y = 584.984111
+**y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B** </br>
+y = (464.2822717 * 1) + (103.8972457 * 1) + (0 * 1) + (1.3210840 * 2018) </br>
+y = 584.984111 </br>
 Berdasarkan perhitungan tersebut, prediksi mahasiswa Teknik Informatika UPH pada Ganjil 2018 adalah 584.984111 mahasiswa -> 585 mahasiswa.
 
 ### Aplikasi Shiny
