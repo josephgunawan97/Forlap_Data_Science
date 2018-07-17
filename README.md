@@ -90,16 +90,16 @@ Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Seme
 <p align="center"> <img src="https://latex.codecogs.com/svg.latex?\Large&space;y%20=%20A_{1}x_{1}+A_{2}x_{2}+A_{3}x_{3}+A_{4}x_{4}+B" title="\Large %20=%20A_{1}x_{1}+A_{2}x_{2}+A_{3}x_{3}+A_{4}x_{4}+B}" /> </p>
 
  dimana,
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;y"/> : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z.
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{1}"/> : Koefisien dari Univ W 
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/> : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia) 
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{2}"/> : Koefisien dari Jurusan X 
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{2}"/> : Nilai dari Jurusan X (1 jika tersedia, 0 jika tidak tersedia)
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{3}"/> : Koefisien dari Semester Y 
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/> : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia)
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{4}"/>> : Koefisien dari Tahun Z 
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x{4"/> : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018)
-  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;B"/> : nilai intercept 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;y"/> : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{1}"/>  : Koefisien dari Univ W 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/>  : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia) 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{2}"/>  : Koefisien dari Jurusan X 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{2}"/>  : Nilai dari Jurusan X (1 jika tersedia, 0 jika tidak tersedia)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{3}"/>  : Koefisien dari Semester Y 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/>  : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{4}"/>  : Koefisien dari Tahun Z 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x{4"/>    : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;B"/>      : nilai intercept 
     
         
 Pada R, nilai koefisien diperoleh dari `model$coefficients` yang merupakan hasil dari data training.
