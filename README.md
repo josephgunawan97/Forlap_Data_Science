@@ -85,8 +85,9 @@ Setelah pemodelan selesai, data hasil prediksi digabungkan dengan data yang suda
 
 ### Perhitungan Prediksi dengan Model Regresi
 Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z dengan pemodelan regresi dapat direpresentasikan oleh rumus matematis sebagai berikut: <br />
-**y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B** <br />
-  dimana, <br />
+<p align="center"> <b> y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B </b> </p>
+<p>
+dimana, <br/>
     * y    : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z. <br/>
     * A<sub>1</sub> : Koefisien dari Univ W <br/>
     * x<sub>1</sub>  : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia) <br/>
@@ -96,13 +97,14 @@ Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Seme
     * x<sub>3</sub>  : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia) <br />
     * A<sub>4</sub> : Koefisien dari Tahun Z <br/>
     * x<sub>4</sub>  : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018) <br />
-    * B    : nilai intercept <br />
+    * B    : nilai intercept <br /> 
+    </p>
         
 Pada R, nilai koefisien diperoleh dari `model$coefficients` yang merupakan hasil dari data training.
-Berikut merupakan contoh dari kasus prediksi terhadap jumlah mahasiswa UPH Teknik Informatika pada tahun ajaran Ganjil 2018:
-**y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B** </br>
-y = (464.2822717 * 1) + (103.8972457 * 1) + (0 * 1) + (1.3210840 * 2018) </br>
-y = 584.984111 </br>
+Berikut merupakan contoh dari kasus prediksi terhadap jumlah mahasiswa UPH Teknik Informatika pada tahun ajaran Ganjil 2018: </br>
+<p align="center"> <b> y = A<sub>1</sub>x<sub>1</sub> + A<sub>2</sub>x<sub>2</sub> + A<sub>3</sub>x<sub>3</sub> + A<sub>4</sub>x<sub>4</sub> + B </b></p>
+<p align="center"> y = (464.2822717 * 1) + (103.8972457 * 1) + (0 * 1) + (1.3210840 * 2018) </p>
+<p align="center"> y = 584.984111 </p>
 Berdasarkan perhitungan tersebut, prediksi mahasiswa Teknik Informatika UPH pada Ganjil 2018 adalah 584.984111 mahasiswa -> 585 mahasiswa.
 
 ### Aplikasi Shiny
