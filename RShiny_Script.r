@@ -21,7 +21,7 @@ ui <- fluidPage(
   bootstrapPage(
     div( p("Di sini, Anda dapat melihat jumlah mahasiswa di jurusan yang terdapat pada perguruan tinggi yang berada di bawah Kopertis Wilayah III. Pilih perguruan tinggi, jurusan, dan tahun yang ingin dilihat. Arahkan kursor pada batang-batang di tabel untuk membaca rincian jumlah mahasiswa. Gunakan autoscale jika dibutuhkan."),
 
-      HTML("Catatan : Data jumlah mahasiswa pada 2018 merupakan data hasil prediksi."), hr())
+      HTML("Catatan: Data jumlah mahasiswa pada 2018 merupakan data hasil prediksi."), hr())
   ),
   
   # Sidebar with a slider input for number of bins 
@@ -91,7 +91,7 @@ server <- function(input, output) {
     graph1 <- ggplot(newdf2[newdf2$namaPT==input$univ,],aes(x=Tahun,y=Banyak))+geom_bar(aes(fill = Semester),stat="identity", position = "dodge") + 
       scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019)) + xlab("Tahun")  + ylab("Jumlah Mahasiswa") +
       theme(axis.title.x = element_text( colour='#808080'), axis.title.y = element_text( colour='#808080'))+
-      theme(plot.margin = unit(c(0,1,1,1), "cm")) + scale_fill_brewer(palette="Dark2")
+      theme(plot.margin = unit(c(0,1,1,1), "cm"))
     
     ggplotly(graph1) %>% layout(hoverlabel = list(font = list(family = "Calibri", 
                                                               size = 12, 
@@ -104,7 +104,7 @@ server <- function(input, output) {
     graph2 <- ggplot(newdf[newdf$namaPT==input$univ & newdf$namaProdi==input$course,],aes(x=Tahun,y=Banyak))+ geom_bar(aes(fill = Semester),stat="identity", position = "dodge") +
       scale_x_continuous(breaks=c(2009:2018), labels=c(2009:2018),limits=c(2009,2019)) + xlab("Tahun")  + ylab("Jumlah Mahasiswa") +
       theme(axis.title.x = element_text( colour='#808080'), axis.title.y = element_text( colour='#808080'))+
-      theme(plot.margin = unit(c(0,1,1,1), "cm")) + scale_fill_brewer(palette="Dark2")
+      theme(plot.margin = unit(c(0,1,1,1), "cm"))
     
     ggplotly(graph2) %>% layout(hoverlabel = list(font = list(family = "Calibri", 
                                                               size = 12, 
@@ -118,8 +118,7 @@ server <- function(input, output) {
     ggplotly( 
       graph3 <- ggplot(newdf[newdf$namaPT==input$univ & newdf$Tahun==input$year,],aes(x=namaProdi,y=Banyak))+geom_bar(aes(fill = Semester),stat="identity", position = "dodge") +
         xlab("Nama Jurusan")  + ylab("Jumlah Mahasiswa") + coord_flip()  + theme(axis.title.x = element_text( colour='#808080'),
-                                                                                 axis.title.y = element_text( colour='#808080'))+ theme(plot.margin = unit(c(0,1,1,1), "cm")) +
-        scale_fill_brewer(palette="Dark2")) 
+                                                                                 axis.title.y = element_text( colour='#808080'))+ theme(plot.margin = unit(c(0,1,1,1), "cm"))) 
         
     ggplotly(graph3) %>% layout(hoverlabel = list(font = list( family = "Calibri", 
                                                                size = 12, 
