@@ -71,7 +71,7 @@ Proses merapikan data ini dilakukan karena:
 Sementara proses pemodelan dilakukan dengan:
 - Mengambil nama semua jurusan dari tiap perguruan tinggi
 - Membuat model dengan fungsi `lm()` untuk menentukan jumlah mahasiswa di tiap jurusan tersebut
-  - Model yang digunakan adalah **regresi linier sederhana**, yang memprediksi hasil variabel terikat sebagai fungsi linier _(y = Ax + B)_ dari variabel kontrol
+  - Model yang digunakan adalah **regresi linier sederhana**, yang memprediksi hasil variabel terikat sebagai fungsi linier _(y = Ax + B)_ dari variabel kontrol. Variabel kontrol dari pemodelan ini adalah Universitas, Jurusan, Semester dan Tahun.
   - Fungsi ini menerima dua argumen, yakni formula pemodelan dan sumber data `lm(VariabelTerikat ~ VariabelBebas, data=SumberData)`
   - Model ini menerima jumlah mahasiswa per jurusan sebagai variabel terikat, dengan variabel bebasnya mengambil seluruh variabel yang ada di _dataframe_ hasil _web-scraping_ yang telah dirapikan di tahap sebelumnya `lm(BanyakMahasiswa ~ ., data = HasilScraping)`.
   - Hasil model linier disimpan ke dalam sebuah variabel `model` untuk digunakan dalam prediksi di tahap selanjutnya
@@ -82,6 +82,32 @@ Sementara proses pemodelan dilakukan dengan:
   - Hasil prediksi yang didapatkan adalah jumlah mahasiswa untuk setiap jurusan pada tahun 2018.
   
 Setelah pemodelan selesai, data hasil prediksi digabungkan dengan data yang sudah rapi untuk ditampilkan dalam aplikasi Shiny
+
+### Perhitungan Prediksi dengan Model Regresi
+Perhitungan untuk memprediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z dengan pemodelan regresi dapat direpresentasikan oleh rumus matematis sebagai berikut:
+
+
+<p align="center"> <img src="https://latex.codecogs.com/svg.latex?\Large&space;y%20=%20A_{1}x_{1}+A_{2}x_{2}+A_{3}x_{3}+A_{4}x_{4}+B" title="\Large %20=%20A_{1}x_{1}+A_{2}x_{2}+A_{3}x_{3}+A_{4}x_{4}+B}" /> </p>
+
+ dimana,
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;y"/> : nilai prediksi jumlah mahasiswa pada Univ W, Jurusan X, pada Semester Y Tahun Z
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{1}"/>  : Koefisien dari Univ W 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/>  : Nilai dari Univ W (1 jika tersedia, 0 jika tidak tersedia) 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{2}"/>  : Koefisien dari Jurusan X 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{2}"/>  : Nilai dari Jurusan X (1 jika tersedia, 0 jika tidak tersedia)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{3}"/>  : Koefisien dari Semester Y 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x_{1}"/>  : Nilai dari Semester Y (1 jika tersedia, 0 jika tidak tersedia)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;A_{4}"/>  : Koefisien dari Tahun Z 
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;x{4"/>    : Nilai Z (x<sub>4</sub>=2018 jika memprediksi tahun 2018)
+  * <img src="https://latex.codecogs.com/svg.latex?\Large&space;B"/>      : nilai intercept 
+    
+        
+Pada R, nilai koefisien diperoleh dari `model$coefficients` yang merupakan hasil dari data training.
+Berikut merupakan contoh dari kasus prediksi terhadap jumlah mahasiswa UPH Teknik Informatika pada tahun ajaran Ganjil 2018: </br>
+
+<p align="center"> <img src="https://latex.codecogs.com/svg.latex?\Large&space;y%20=%20(464.2822717%20*%201)%20+%20(103.8972457%20*%201)%20+%20(0%20*%201)%20+%20(1.3210840%20*%202018)" title="Large&space;y%20=%20(464.2822717%20*%201)%20+%20(103.8972457%20*%201)%20+%20(0%20*%201)%20+%20(1.3210840%20*%202018" /> </p>
+<p align="center"><img src="https://latex.codecogs.com/svg.latex?\Large&space;y=584.984111"/></p>
+Berdasarkan perhitungan tersebut, prediksi mahasiswa Teknik Informatika UPH pada Ganjil 2018 adalah 584.984111 mahasiswa -> 585 mahasiswa.
 
 ### Aplikasi Shiny
 Untuk visualisasi data, aplikasi kami membutuhkan tiga masukan untuk menampilkan informasi. Pengguna dapat mengubah masukan sesuai dengan kebutuhan pada _sidebar_ yang tersedia. Informasi akan langsung berubah setiap ada satu masukan yang diubah. Ketiga masukan tersebut adalah:
