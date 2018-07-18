@@ -75,7 +75,7 @@ Sementara proses pemodelan dilakukan dengan:
   - Fungsi ini menerima dua argumen, yakni formula pemodelan dan sumber data `lm(VariabelTerikat ~ VariabelBebas, data=SumberData)`
   - Model ini menerima jumlah mahasiswa per jurusan sebagai variabel terikat, dengan variabel bebasnya mengambil seluruh variabel yang ada di _dataframe_ hasil _web-scraping_ yang telah dirapikan di tahap sebelumnya `lm(BanyakMahasiswa ~ ., data = HasilScraping)`.
   - Hasil model linier disimpan ke dalam sebuah variabel `model` untuk digunakan dalam prediksi di tahap selanjutnya
-- Melakukan prediksi dengan fungsi `predict()`
+- Melakukan prediksi dengan fungsi `predict()`, yang aspek matematisnya akan dijelaskan pada bagian selanjutnya
   - Fungsi ini berfungsi untuk memprediksi data sesuai dengan model yang telah dibuat, menggunakan data baru sebagai variabel bebas `predict(model, dataBaru)`
   - Model diambil dari hasil regresi linier dari tahap sebelumnya
   - Variabel bebasnya adalah informasi nama jurusan dan nama perguruan tinggi yang (diasumsikan) masih aktif pada tahun 2018.
@@ -116,9 +116,9 @@ Untuk visualisasi data, aplikasi kami membutuhkan tiga masukan untuk menampilkan
 - Tahun (`tahun`)
 
 Informasi ditampilkan di kolom utama, terbagi dalam tiga tab. Satu tab memuat satu diagram batang. Ketiga diagram tersebut adalah:
-- _Jumlah mahasiswa (nama perguruan tinggi) per tahun_ pada tab _Overview Tahunan_. Tabel ini membandingkan jumlah total mahasiswa dari seluruh jurusan dalam `namaPT` dari tahun ke tahun.
-- _Jumlah mahasiswa (nama perguruan tinggi) jurusan (jurusan) per tahun_ pada tab _Overview Jurusan_. Tabel ini membandingkan jumlah mahasiswa di `jurusan` dari tahun ke tahun.
-- _Jumlah mahasiswa (nama perguruan tinggi) per jurusan pada tahun (tahun)_ pada tab _Overview Jurusan/Tahun_. Tabel ini membandingkan jumlah mahasiswa yang masuk ke setiap jurusan pada `tahun`.
+- _Jumlah mahasiswa (nama perguruan tinggi) per tahun_ pada tab **Overview Tahunan**. Tabel ini membandingkan jumlah total mahasiswa dari seluruh jurusan dalam `namaPT` dari tahun ke tahun.<p align="center"><img src="https://github.com/josephgunawan97/Forlap_Data_Science/blob/master/graph/total_student.png"/></p>
+- _Jumlah mahasiswa (nama perguruan tinggi) jurusan (jurusan) per tahun_ pada tab **Overview Jurusan**. Tabel ini membandingkan jumlah mahasiswa di `jurusan` dari tahun ke tahun.<p align="center"><img src="https://github.com/josephgunawan97/Forlap_Data_Science/blob/master/graph/spesific_course.png"/></p>
+- _Jumlah mahasiswa (nama perguruan tinggi) per jurusan pada tahun (tahun)_ pada tab **Overview Jurusan/Tahun**. Tabel ini membandingkan jumlah mahasiswa yang masuk ke setiap jurusan pada `tahun`.<p align="center"><img src="https://github.com/josephgunawan97/Forlap_Data_Science/blob/master/graph/years_details.png"/></p>
 
 Karena setiap perguruan tinggi harus memperbarui data mereka setiap semester, informasi untuk satu tahun dibagi menjadi semester ganjil dan genap. Data semester genap ditandai dengan warna hijau toska, sementara data semester ganjil ditandai dengan warna merah salem. Selain itu, untuk kejelasan informasi yang ditunjukkan, pengguna juga dapat mengarahkan kursor ke tiap batang pada diagram untuk melihat dengan jelas data tersebut berasal dari semester berapa, tahun berapa, dan jumlah mahasiswa yang diwakilkan oleh batang tersebut.
 
