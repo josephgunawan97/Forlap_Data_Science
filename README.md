@@ -36,6 +36,8 @@ Jika skrip `WebScrap_Script.r` mengalami problem, atau data CSV tidak dapat dipr
 
 ## Cara kerja
 
+![Flowchart proses kerja](https://github.com/josephgunawan97/Forlap_Data_Science/blob/master/graph/flowchart.png)
+
 ### _Web scraping_
 PDDIKTI tidak menyediakan API untuk mengambil data mahasiswa di dalamnya, sehingga kami harus melakukan _web scraping_ menggunakan R.
 
